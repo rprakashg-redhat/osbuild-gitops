@@ -1,0 +1,25 @@
+name: "Compose image"
+on:
+  workflow_dispatch:
+    inputs:
+      image-type:
+        type: choice
+        options:
+        - qcow2
+        - tar
+        - raw
+        - vhd
+        - gce
+        - vmdk
+        - openstack
+        - oci
+        required: true
+        default: raw
+jobs:
+  build:
+    name: build rhel9 system based on defined blueprint
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+

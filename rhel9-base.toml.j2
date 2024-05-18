@@ -1,0 +1,40 @@
+name = "rhel9-base"
+description = "RHEL 9 System base image with customizations"
+version = "0.0.1"
+
+[[packages]]
+name = bash
+version = "*"
+
+[[packages]]
+name = "git"
+version = "*"
+
+[[packages]]
+name = "curl"
+version = "*"
+
+[[packages]]
+name = "wget"
+version = "*"
+
+[[packages]]
+name = "python3-pip"
+version = "*"
+
+[[packages]]
+name = "python3-inotify"
+version = "*"
+
+[[customizations.sshkey]]
+user = "root"
+key = "{{ root_user_key }}"
+
+[[customizations.user]]
+name = {{ admin_user }}
+description = "Admin user"
+password = {{ admin_password }}
+key = {{ admin_key }}
+home = "home/{{ admin_user }}"
+shell = "/usr/bin/bash"
+groups = ["users", "wheel"]
