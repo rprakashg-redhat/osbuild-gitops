@@ -4,9 +4,8 @@ on:
     inputs:
       image-type:
         type: choice
+        description: "Image type to generate"
         options:
-        - qcow2
-        - tar
         - raw
         - vhd
         - gce
