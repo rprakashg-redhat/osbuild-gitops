@@ -33,8 +33,8 @@ key = "{{ root_user_key }}"
 [[customizations.user]]
 name = {{ admin_user }}
 description = "Admin user"
-password = {{ admin_password }}
-key = {{ admin_key }}
+password = {{ admin_user_password }}
+key = {{ admin_user_key }}
 home = "home/{{ admin_user }}"
 shell = "/usr/bin/bash"
 groups = ["users", "wheel"]
