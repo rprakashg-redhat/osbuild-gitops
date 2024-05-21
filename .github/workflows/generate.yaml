@@ -35,6 +35,7 @@ jobs:
       with:
         template: ./rhel9-base.toml.j2
         output_file: ${{ runner.temp }}/rhel9-base.toml
+        data_format: 'toml'
       env:
         root_user_key: ${{ secrets.ROOT_USER_KEY }}
         admin_user: ${{ vars.ADMIN_USER }}
