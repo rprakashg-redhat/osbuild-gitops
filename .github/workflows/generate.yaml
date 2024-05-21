@@ -34,7 +34,7 @@ jobs:
       uses: cuchi/jinja2-action@v1.2.2
       with:
         template: ./rhel9-base.toml.j2
-        output_file: ${{ runner.temp }}/rhel9-base.toml
+        output_file: ./rhel9-base.toml
         data_format: 'toml'
       env:
         root_user_key: ${{ secrets.ROOT_USER_KEY }}
