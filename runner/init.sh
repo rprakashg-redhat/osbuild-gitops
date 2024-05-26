@@ -3,7 +3,7 @@ sudo subscription-manager register --username=$RH_USER --password=$RH_USER_PASSW
 sudo subscription-manager attach
 sudo subscription-manager config --rhsm.manage_repos=1
 
-sudo dnf -y install osbuild-composer composer-cli cockpit-composer
+sudo dnf -y install osbuild-composer composer-cli cockpit-composer podman
 
 # enable image builder
 sudo systemctl enable --now osbuild-composer.socket
