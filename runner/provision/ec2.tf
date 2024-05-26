@@ -1,4 +1,4 @@
-module "aap" {
+module "rhelbuilder" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "2.8.0"
 
@@ -29,8 +29,6 @@ module "aap" {
       encrypted   = false
     }
   ]
-
-  user_data = file("${path.module}/init.sh")
 
   tags = local.tags
 }

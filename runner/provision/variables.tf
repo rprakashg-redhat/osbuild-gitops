@@ -39,13 +39,3 @@ variable "myip" {
   type        = string
   default     = "71.67.107.138/32"
 }
-
-variable rhUser {
-  description = "Red Hat user account"
-  type        = string
-}
-
-variable rhUserPassword {
-  description = "Red Hat user account password"
-  type        = string
-}

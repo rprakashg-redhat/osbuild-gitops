@@ -5,6 +5,11 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 data "aws_caller_identity" "current" {}
 
+resource "aws_key_pair" "sshkeypair" {
+  key_name   = var.sshKey
+  public_key = file("~/.ssh/${var.sshKey}.pub")
+}
+
 locals {
 
     azs                     = slice(data.aws_availability_zones.available.names, 0, 3)
