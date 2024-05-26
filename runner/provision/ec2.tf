@@ -30,5 +30,15 @@ module "rhelbuilder" {
     }
   ]
 
+  user_data = <<-EOF
+    #!/bin/bash
+
+    sudo dnf -y install ansible-core
+    
+    ansible-galaxy collection install -f git+https://github.com/redhat-cop/infra.osbuild --upgrade
+    ansible-galaxy collection install -f containers.podman --upgrade
+
+  EOF
+  
   tags = local.tags
 }
