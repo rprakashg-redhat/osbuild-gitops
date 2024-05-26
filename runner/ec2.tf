@@ -30,5 +30,7 @@ module "aap" {
     }
   ]
 
+  user_data = file("${path.module}/init.sh")
+
   tags = local.tags
 }
