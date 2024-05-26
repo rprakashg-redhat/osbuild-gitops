@@ -17,7 +17,7 @@ on:
 jobs:
   build:
     name: build rhel9 system based on defined blueprint
-    runs-on: ip-10-0-3-142
+    runs-on: "self-hosted"
 
     steps:
     - uses: actions/checkout@v4
