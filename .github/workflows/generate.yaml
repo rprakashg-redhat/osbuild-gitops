@@ -25,15 +25,15 @@ jobs:
       shell: bash
       run: |
         composer-cli version
-        composer-cli blueprints push ./blueprints/rhel9-base.toml
+        composer-cli blueprints push ./blueprints/rhel-9-latest-CIS-L1-Server.toml
         composer-cli blueprints list
-        compose_id=$(composer-cli --json compose start rhel9-base ${{ inputs.image-type }} | jq -r ".[].body.build_id")
+        compose_id=$(composer-cli --json compose start RHEL-9-latest-CIS-L1-Server ${{ inputs.image-type }} | jq -r ".[].body.build_id")
         while [[ $(composer-cli --json compose info "${compose_id}" | jq -r ".[].body.queue_status") =~ RUNNING|WAITING ]]; do sleep 15; done
         
         # check whether the build succeeded
         [[ $(composer-cli --json compose info "${compose_id}" | jq -r ".[].body.queue_status") =~ FINISHED ]] || exit 1
         
-        composer-cli compose image "${compose_id}" --filename rhel9-base.${{ inputs.image-type }}
+        composer-cli compose image "${compose_id}" --filename rhel-9-latest-CIS-L1-Server.${{ inputs.image-type }}
 
     - name: upload composed image as workflow artifact
       uses: actions/upload-artifact@v4
