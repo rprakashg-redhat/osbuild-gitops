@@ -26,15 +26,10 @@ version = "*"
 name = "python3-inotify"
 version = "*"
 
-[[customizations.sshkey]]
-user = "root"
-key = "{{ root_user_key }}"
-
 [[customizations.user]]
-name = {{ admin_user }}
+name = "admin"
 description = "Admin user"
-password = {{ admin_user_password }}
-key = {{ admin_user_key }}
-home = "home/{{ admin_user }}"
+password = ""
+home = "home/admin"
 shell = "/usr/bin/bash"
 groups = ["users", "wheel"]

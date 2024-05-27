@@ -59,3 +59,21 @@
       src: ./actions-runner/actions-runner-linux-x64-2.316.1.tar.gz
       dest: ./actions-runner
       remote_src: yes
+
+  - name: alias docker
+    lineinfile:
+      dest: "~/.bash_profile"
+      line: |
+        alias docker=podman
+        alias docker-compose=podman-compose
+        alias docker-buildx=podman build
+        alias docker-container=podman container
+        alias docker-image=podman image
+        alias docker-network=podman network
+        alias docker-node=podman node
+        alias docker-secret=podman secret
+        alias docker-service=podman service
+        alias docker-stack=podman stack
+        alias docker-swarm=podman swarm
+        alias docker-system=podman system
+        alias docker-volume=podman volume

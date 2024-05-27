@@ -6,14 +6,14 @@ on:
         type: choice
         description: "Image type to generate"
         options:
-        - edge-ami
+        - raw
         - vhd
         - gce
         - vmdk
         - openstack
         - oci
         required: true
-        default: edge-ami
+        default: raw
 jobs:
   build:
     name: build rhel9 system based on defined blueprint
@@ -21,39 +21,22 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: generate blueprint with the defined template
-      uses: cuchi/jinja2-action@v1.2.2
-      with:
-        template: ./blueprints/rhel9-base.toml.j2
-        output_file: ./blueprints/rhel9-base.toml
-        data_format: 'toml'
-      env:
-        root_user_key: ${{ secrets.ROOT_USER_KEY }}
-        admin_user: ${{ vars.ADMIN_USER }}
-        admin_user_password: ${{ secrets.ADMIN_USER_PASSWORD }}
-        admin_user_key: ${{ secrets.ADMIN_USER_KEY }}
     - name: build image
       shell: bash
       run: |
         composer-cli version
-        # composer-cli blueprints push ./blueprints/rhel9-base.toml
-        # composer-cli blueprints list
-        # compose_id=$(composer-cli --json compose start rhel9-base ${{ inputs.image-type }} | jq -r ".[].body.build_id")
-        # while [[ $(composer-cli --json compose info "${compose_id}" | jq -r ".[].body.queue_status") =~ RUNNING|WAITING ]]; do sleep 15; done
+        composer-cli blueprints push ./blueprints/rhel9-base.toml
+        composer-cli blueprints list
+        compose_id=$(composer-cli --json compose start rhel9-base ${{ inputs.image-type }} | jq -r ".[].body.build_id")
+        while [[ $(composer-cli --json compose info "${compose_id}" | jq -r ".[].body.queue_status") =~ RUNNING|WAITING ]]; do sleep 15; done
         
         # check whether the build succeeded
-        # [[ $(composer-cli --json compose info "${compose_id}" | jq -r ".[].body.queue_status") =~ FINISHED ]] || exit 1
+        [[ $(composer-cli --json compose info "${compose_id}" | jq -r ".[].body.queue_status") =~ FINISHED ]] || exit 1
         
-        # composer-cli compose image "${compose_id}" --filename image.${{ inputs.image-type }}
+        composer-cli compose image "${compose_id}" --filename rhel9-base.${{ inputs.image-type }}
 
-    #- name: upload composed image as workflow artifact
-    #  uses: actions/upload-artifact@v4
-    #  with:
-    #    name: blueprint
-    #    path: ./rhel9-base.toml
-
-    # - name: upload composed image as workflow artifact
-    #  uses: actions/upload-artifact@v4
-    #  with:
-    #    name: outputimage
-    #    path: "rhel9-base.ami"
+    - name: upload composed image as workflow artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: outputimage
+        path: "rhel9-base.ami"
