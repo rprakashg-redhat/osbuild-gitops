@@ -3,6 +3,10 @@
   hosts:
   - runner
   tasks:
+  - name: Include secrets file with offline_token
+    include_vars:
+      file: "../vars/secrets.yml"
+
   - name: attach to subscription
     become: true
     shell: |
@@ -20,87 +24,38 @@
     ansible.builtin.dnf:
       state: latest
       name: "{{ packages }}"
-      vars:
-        packages:
-        - coreutils
-        - glibc-minimal-langpack
-        - pykickstart
-        - mtools
-        - xorriso
-        - genisoimage
-        - syslinux
-        - isomd5sum
-        - lorax
-        - butane
-        - rpmdevtools
-        - rpmlint
-        - yum-utils
-        - createrepo
+    vars:
+      packages:
+      - coreutils
+      - glibc-minimal-langpack
+      - pykickstart
+      - mtools
+      - xorriso
+      - genisoimage
+      - syslinux
+      - isomd5sum
+      - lorax
+      - butane
+      - rpmdevtools
+      - rpmlint
+      - yum-utils
+      - createrepo
+      - podman
+
+  - name: create actions runner directory
+    ansible.builtin.file:
+      path: ./actions-runner
+      state: directory
+      mode: '0755' 
   
-  - name: Initiate the rpm build tree
-    become: true
-    shell: rpmdev-setuptree
-
-  - name: Prepare Image Builder for Microshift
-    become: true
-    block:
-    - name: Create rhocp-{{ microshift_release }}.toml configuration file
-      copy:
-        dest: "/tmp/rhocp-{{ microshift_release }}.toml"
-        content: |
-          id = "rhocp-{{ microshift_release }}"
-          name = "Red Hat OpenShift Container Platform {{ microshift_release }} for RHEL 9"
-          type = "yum-baseurl"
-          url = "https://cdn.redhat.com/content/dist/layered/rhel9/{{ ansible_architecture }}/rhocp/{{ microshift_release }}/os"
-          check_gpg = true
-          check_ssl = true
-          system = false
-          rhsm = true
-
-    - name: Create fast-datapath.toml configuration file
-      copy:
-        dest: "/tmp/fast-datapath.toml"
-        content: |
-          id = "fast-datapath"
-          name = "Fast Datapath for RHEL 9"
-          type = "yum-baseurl"
-          url = "https://cdn.redhat.com/content/dist/layered/rhel9/{{ ansible_architecture }}/fast-datapath/os"
-          check_gpg = true
-          check_ssl = true
-          system = false
-          rhsm = true
-
-    - name: Add sources to Image Builder
-      command: "sudo composer-cli sources add {{ item }}"
-      loop:
-        - "/tmp/rhocp-{{ microshift_release }}.toml"
-        - "/tmp/fast-datapath.toml"
-
-    - name: Add pull-secret to Image Builder
-      become: true
-      block:
-        - name: Include secrets file with pull-secret 
-          include_vars:
-            file: "../vars/secrets.yml"
-
-        - name: Create /etc/osbuild-worker/ directory
-          file:
-            path: /etc/osbuild-worker/
-            state: directory
-
-        - name: Put pull_secret into /etc/osbuild-worker/pull-secret.json
-          copy:
-            content: "{{ pullSecret }}"
-            dest: /etc/osbuild-worker/pull-secret.json
-
-        - name: Create /etc/osbuild-worker/osbuild-worker.toml
-          copy:
-            content: |
-              [containers]
-              auth_file_path = "/etc/osbuild-worker/pull-secret.json"
-            dest: /etc/osbuild-worker/osbuild-worker.toml
-
-        - name: Restart osbuild-worker@1.service
-          systemd:
-            name: osbuild-worker@1
-            state: restarted
+  - name: download latest runner package
+    get_url: 
+      url: https://github.com/actions/runner/releases/download/v2.316.1/actions-runner-linux-x64-2.316.1.tar.gz
+      dest: ./actions-runner
+      mode: '0644'
+  
+  - name: extract the installer
+    unarchive:
+      src: ./actions-runner/actions-runner-linux-x64-2.316.1.tar.gz
+      dest: ./actions-runner
+      remote_src: yes
