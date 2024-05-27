@@ -21,17 +21,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    #- name: generate blueprint with the defined template
-    #  uses: cuchi/jinja2-action@v1.2.2
-    #  with:
-    #    template: ./blueprints/rhel9-base.toml.j2
-    #    output_file: ./blueprints/rhel9-base.toml
-    #    data_format: 'toml'
-    #  env:
-    #    root_user_key: ${{ secrets.ROOT_USER_KEY }}
-    #    admin_user: ${{ vars.ADMIN_USER }}
-    #    admin_user_password: ${{ secrets.ADMIN_USER_PASSWORD }}
-    #    admin_user_key: ${{ secrets.ADMIN_USER_KEY }}
+    - name: generate blueprint with the defined template
+      uses: cuchi/jinja2-action@v1.2.2
+      with:
+        template: ./blueprints/rhel9-base.toml.j2
+        output_file: ./blueprints/rhel9-base.toml
+        data_format: 'toml'
+      env:
+        root_user_key: ${{ secrets.ROOT_USER_KEY }}
+        admin_user: ${{ vars.ADMIN_USER }}
+        admin_user_password: ${{ secrets.ADMIN_USER_PASSWORD }}
+        admin_user_key: ${{ secrets.ADMIN_USER_KEY }}
     - name: build image
       shell: bash
       run: |
