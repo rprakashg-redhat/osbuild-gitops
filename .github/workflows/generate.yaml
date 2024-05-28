@@ -20,18 +20,18 @@ jobs:
       shell: bash
       run: |
         composer-cli version
-        composer-cli blueprints push ./blueprints/edge-demo.toml
+        composer-cli blueprints push ./blueprints/edge_demo.toml
         composer-cli blueprints list
-        compose_id=$(composer-cli --json compose start edge-demo ${{ inputs.image-type }} | jq -r ".[].body.build_id")
+        compose_id=$(composer-cli --json compose start edge_demo ${{ inputs.image-type }} | jq -r ".[].body.build_id")
         while [[ $(composer-cli --json compose info "${compose_id}" | jq -r ".[].body.queue_status") =~ RUNNING|WAITING ]]; do sleep 15; done
         
         # check whether the build succeeded
         [[ $(composer-cli --json compose info "${compose_id}" | jq -r ".[].body.queue_status") =~ FINISHED ]] || exit 1
         
-        composer-cli compose image "${compose_id}" --filename edge-demo.tar
+        composer-cli compose image "${compose_id}" --filename edge_demo.tar
 
     - name: upload composed image as workflow artifact
       uses: actions/upload-artifact@v4
       with:
         name: outputimage
-        path: "edge-demo.tar"
+        path: "edge_demo.tar"
