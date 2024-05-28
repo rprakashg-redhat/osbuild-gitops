@@ -1,0 +1,50 @@
+name = "edge-demo"
+description = "edge demo blueprint"
+version = "0.0.1"
+modules = [ ]
+groups = [ ]
+
+[[packages]]
+name = "libreswan"
+
+[[packages]]
+name = "microshift"
+
+[[packages]]
+name = "microshift-greenboot"
+
+[[packages]]
+name = "NetworkManager-wifi"
+
+[[packages]]
+name = "firewalld"
+
+[[packages]]
+name = "openshift-clients"
+
+[[packages]]
+name = "podman"
+
+[[packages]]
+name = "vim-enhanced"
+
+[[packages]]
+name = "fuse-overlayfs"
+
+[[packages]]
+name = "setroubleshoot-server"
+
+[[packages]]
+name = "slirp4netns"
+
+[[packages]]
+name = "net-tools"
+
+[[packages]]
+name = "git"
+
+[[packages]]
+name = "python3-pip"
+
+[[packages]]
+name = "python3-inotify"
