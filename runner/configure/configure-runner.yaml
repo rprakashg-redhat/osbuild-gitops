@@ -69,15 +69,10 @@
       dest: "~/.bash_profile"
       line: |
         alias docker=podman
-        alias docker-compose=podman-compose
-        alias docker-buildx=podman build
-        alias docker-container=podman container
-        alias docker-image=podman image
-        alias docker-network=podman network
-        alias docker-node=podman node
-        alias docker-secret=podman secret
-        alias docker-service=podman service
-        alias docker-stack=podman stack
-        alias docker-swarm=podman swarm
-        alias docker-system=podman system
-        alias docker-volume=podman volume
+  
+  - name: add ec2-user to weldr group
+    ansible.builtin.user:
+      name: ec2-user
+      groups: weldr
+      append: yes
+    become: true
