@@ -1,5 +1,5 @@
 # osbuild-gitops
-This is a simple example demonstrating building bootable OS images with osbuild. Repo currently contains a osbuild blueprint template to build a RHEL9 base bootable system image for demonstration purposes. Keep in mind this is just an example to demonstrate use of best practices and its intended to be a reference for infrastructure teams.
+This is a simple example demonstrating building RHEL system images using image builder and Gitops process. Keep in mind this is just an example to demonstrate use of best practices and its intended to be a reference for infrastructure teams.
 
 ## Setting up a self hosted runner
 We are going to use a RHEL 9 system with image builder and all required tools installed and configured as a self hosted github actions runner within the github actions workflow. 
