@@ -2,6 +2,7 @@
 all:
   hosts:
     runner:
-      ansible_host: ec2-52-32-26-176.us-west-2.compute.amazonaws.com
+      ansible_host: ec2-34-210-84-150.us-west-2.compute.amazonaws.com
       ansible_port: 22
       ansible_user: ec2-user
+      

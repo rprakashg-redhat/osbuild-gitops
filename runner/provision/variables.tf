@@ -37,5 +37,5 @@ variable "ami" {
 variable "myip" {
   description = "Public IP assigned by my ISP"
   type        = string
-  default     = "71.67.107.138/32"
+  default     = "136.27.40.26/32"
 }

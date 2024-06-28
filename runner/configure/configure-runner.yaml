@@ -5,7 +5,7 @@
   tasks:
   - name: Include secrets file with offline_token
     include_vars:
-      file: "../vars/secrets.yml"
+      file: "./vars/secrets.yml"
 
   - name: register the system
     become: true
