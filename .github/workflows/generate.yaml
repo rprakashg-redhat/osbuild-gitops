@@ -22,7 +22,8 @@ jobs:
         composer-cli version
         composer-cli blueprints push ./blueprints/edge_demo.toml
         composer-cli blueprints list
-        compose_id=$(composer-cli --json compose start edge_demo ${{ inputs.image-type }} | jq -r ".[].body.build_id")
+        compose_id=$(composer-cli --json compose start-ostree edge_demo ${{ inputs.image-type }} | jq -r ".[].body.build_id")
+
         while [[ $(composer-cli --json compose info "${compose_id}" | jq -r ".[].body.queue_status") =~ RUNNING|WAITING ]]; do sleep 15; done
         
         # check whether the build succeeded
